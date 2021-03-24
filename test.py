@@ -50,18 +50,13 @@ wb = Workbook()
 sheet = wb.add_sheet('video_recommend') 
 sheet.write(0,0,'user_id')
 sheet.write(0,1,'video_id')
-sheet.write(0,2,'videos recommemed')
-sheet.write(0,3,'video is in recommend list')
-sheet.write(0,4,'True')
-sheet.write(0,5,'False')
-sheet.write(0,6,'Accuracy')
+sheet.write(0,2,'video is in recommend list')
+sheet.write(0,3,'True')
+sheet.write(0,4,'False')
+sheet.write(0,5,'Accuracy')
 for index, row in df.iterrows():
     try:
         recommend_num = 50
-#         result = requests.get('http://localhost:5000/video_id_to_video?video_id=' \
-#                                   + str(row['video_id']) +'&nums=' + str(recommend_num))
-#         r = json.loads(result.text)
-#         rmd = r['videos_id']
         rmd = vtv(str(row['video_id']))
         id = int(row['user_id'])
 
@@ -78,10 +73,12 @@ for index, row in df.iterrows():
         
         sheet.write(index+1,0,str(row['user_id']))
         sheet.write(index+1,1,str(row['video_id']))
-        sheet.write(index+1,2,str(recommend_list))
-        sheet.write(index+1,3,str(rst))
-    except:
+        sheet.write(index+1,2,str(rst))
+    except Exception as e:
+        print(e)
         continue
+
+    print(index)
     
 sheet.write(1,4,str(c))
 sheet.write(1,5,str(d))
